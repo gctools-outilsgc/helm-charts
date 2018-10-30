@@ -27,13 +27,24 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          env:
+          - name: "DOCKER"
+            value: "1"
+          - name: "DBHOST"
+            value: "{{ .Values.env.DBHOST }}"
+          - name: "HOST"
+            value: "{{ .Values.env.HOST }}"
+          - name: "PORT"
+            value: ""   # sticking to default port 80 only for now
+          - name: "OPENID"
+            value: "{{ .Values.env.OPENID }}"
           livenessProbe:
             httpGet:
-              path: /
+              path: /Main_Page
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /Main_Page
               port: http
           resources:
 {{ toYaml .Values.resources | indent 12 }}
