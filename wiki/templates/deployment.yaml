@@ -38,17 +38,23 @@ spec:
             value: ""   # sticking to default port 80 only for now
           - name: "OPENID"
             value: "{{ .Values.env.OPENID }}"
+{{- if .Values.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
               path: /Main_Page
               port: http
+{{ toYaml .Values.livenessProbe | indent 14 }}
+{{- end}}
+{{- if .Values.readinessProbe.enabled }}
           readinessProbe:
             httpGet:
               path: /Main_Page
               port: http
+{{ toYaml .Values.readinessProbe | indent 14 }}
+{{- end}}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-{{- if .Values.parsoid.enabled -}}
+{{- if .Values.parsoid.enabled }}
         - name: parsoid
           image: "phanoix/parsoid:local"
           imagePullPolicy: IfNotPresent

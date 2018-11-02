@@ -170,8 +170,8 @@ readinessProbe:
   enabled: true
   initialDelaySeconds: 30
   periodSeconds: 10
-  timeoutSeconds: 5
-  failureThreshold: 6
+  timeoutSeconds: 2
+  failureThreshold: 3
   successThreshold: 1
 
 ## Prometheus Exporter / Metrics
