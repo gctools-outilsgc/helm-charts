@@ -1,0 +1,62 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ include "wiki.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "wiki.name" . }}
+    helm.sh/chart: {{ include "wiki.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.pdf.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "wiki.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "wiki.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-pdf
+          image: "{{ .Values.pdf.image.repository }}:{{ .Values.pdf.image.tag }}"
+          imagePullPolicy: {{ .Values.pdf.image.pullPolicy }}
+          ports:
+            - name: pdf
+              containerPort: 3000
+              protocol: TCP
+          env:
+          - name: "DOCKER"
+            value: "1"
+          - name: "DBHOST"
+            value: "{{ .Values.pdf.env.DBHOST }}"
+          - name: "HOST"
+            value: "{{ .Values.pdf.env.HOST }}"
+          - name: "PORT"
+            value: ""   # sticking to default port 80 only for now
+          - name: "OPENID"
+            value: "{{ .Values.pdf.env.OPENID }}"
+          livenessProbe:
+            httpGet:
+              path: /Main_Page
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /Main_Page
+              port: http
+          resources:
+{{ toYaml .Values.pdf.resources | indent 12 }}
+    {{- with .Values.pdf.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.pdf.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.pdf.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}

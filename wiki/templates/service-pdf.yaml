@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "wiki.fullname" . }}-pdf
+  labels:
+    app.kubernetes.io/name: {{ include "wiki.name" . }}
+    helm.sh/chart: {{ include "wiki.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.pdf.service.type }}
+  ports:
+    - port: {{ .Values.pdf.service.port }}
+      targetPort: pdf
+      protocol: TCP
+      name: pdf
+  selector:
+    app.kubernetes.io/name: {{ include "wiki.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
