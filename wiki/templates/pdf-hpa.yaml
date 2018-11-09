@@ -1,0 +1,30 @@
+{{- if eq .Values.pdf.kind "Deployment" }}
+{{- if .Values.pdf.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    app: {{ template "wiki.pdf.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    component: "{{ .Values.pdf.name }}"
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ template "wiki.pdf.fullname" . }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta1
+    kind: Deployment
+    name: {{ template "wiki.pdf.fullname" . }}
+  minReplicas: {{ .Values.pdf.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.pdf.autoscaling.maxReplicas }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.pdf.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.pdf.autoscaling.targetMemoryUtilizationPercentage }}
+{{- end }}
+{{- end }}
