@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "wiki.fullname" . }}-pdf
   labels:
-    app.kubernetes.io/name: {{ include "wiki.name" . }}
+    app.kubernetes.io/name: {{ include "wiki.name" . }}-pdf
     helm.sh/chart: {{ include "wiki.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
@@ -18,5 +18,5 @@ spec:
       protocol: TCP
       name: pdf
   selector:
-    app.kubernetes.io/name: {{ include "wiki.name" . }}
+    app.kubernetes.io/name: {{ include "wiki.name" . }}-pdf
     app.kubernetes.io/instance: {{ .Release.Name }}
