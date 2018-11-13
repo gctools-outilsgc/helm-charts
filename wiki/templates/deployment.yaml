@@ -31,13 +31,13 @@ spec:
           - name: "DOCKER"
             value: "1"
           - name: "DBHOST"
-            value: "{{ .Values.env.DBHOST }}"
+            value: "{{ .Values.env.dbhost }}"
           - name: "HOST"
-            value: "{{ .Values.env.HOST }}"
+            value: "{{ .Values.env.host }}"
           - name: "PORT"
             value: ""   # sticking to default port 80 only for now
           - name: "OPENID"
-            value: "{{ .Values.env.OPENID }}"
+            value: "{{ .Values.env.openid }}"
 {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
