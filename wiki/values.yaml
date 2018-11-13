@@ -93,6 +93,10 @@ parsoid:
 pdf:
   replicaCount: 1
 
+  window:
+    width: 1024
+    height: 768
+
   image:
     repository: msokk/electron-render-service
     tag: 1.0.0

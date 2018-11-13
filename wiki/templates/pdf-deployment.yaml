@@ -28,24 +28,26 @@ spec:
               containerPort: 3000
               protocol: TCP
           env:
-          - name: "DOCKER"
+          - name: "HOSTNAME"
+            value: ""
+          - name: "CONCURRENCY"
             value: "1"
-          - name: "DBHOST"
-            value: "{{ .Values.pdf.env.DBHOST }}"
-          - name: "HOST"
-            value: "{{ .Values.pdf.env.HOST }}"
+          - name: "TIMEOUT"
+            value: "30"
+          - name: "WINDOW_WIDTH"
+            value: {{ .Values.pdf.window.width }}
+          - name: "WINDOW_HEIGHT"
+            value: {{ .Values.pdf.window.height }}
           - name: "PORT"
-            value: ""   # sticking to default port 80 only for now
-          - name: "OPENID"
-            value: "{{ .Values.pdf.env.OPENID }}"
+            value: "3000"
           livenessProbe:
             httpGet:
-              path: /Main_Page
-              port: http
+              path: /
+              port: pdf
           readinessProbe:
             httpGet:
-              path: /Main_Page
-              port: http
+              path: /
+              port: pdf
           resources:
 {{ toYaml .Values.pdf.resources | indent 12 }}
     {{- with .Values.pdf.nodeSelector }}
