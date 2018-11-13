@@ -9,6 +9,9 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   type: {{ .Values.pdf.service.type }}
+{{- if .Values.pdf.service.clusterIP }}
+  clusterIP: "{{ .Values.pdf.service.clusterIP }}"
+{{- end }}
   ports:
     - port: {{ .Values.pdf.service.port }}
       targetPort: pdf
