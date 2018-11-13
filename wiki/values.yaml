@@ -83,15 +83,15 @@ persistence:
   accessMode: ReadWriteOnce
   size: 8Gi
 
-  env:
-    host: wiki.local
-    dbhost: wiki-db
-    openid: false
+env:
+  host: wiki.local
+  dbhost: wiki-db
+  openid: false
+
 
 parsoid:
   enabled: true
   resources: {}
-
 
 
 
@@ -149,7 +149,7 @@ pdf:
     maxReplicas: 11
     targetCPUUtilizationPercentage: 50
     targetMemoryUtilizationPercentage: 50
-    
+
 
 
 ##
