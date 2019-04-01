@@ -1,2 +1,3 @@
 collab helm chart
-wip
+
+https://github.com/gctools-outilsgc/gcconnex/tree/master/.chart/collab
